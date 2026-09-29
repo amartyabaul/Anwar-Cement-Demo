@@ -1,0 +1,13 @@
+{
+  "name": "Anwar Cement",
+  "short_name": "Anwar Cement",
+  "description": "Premium Portland Composite Cement made in Bangladesh.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0E0F11",
+  "theme_color": "#DD2930",
+  "icons": [
+    { "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
