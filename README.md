@@ -20,7 +20,7 @@ site.webmanifest, robots.txt, sitemap.xml
    - Formspree: create a form, paste `https://formspree.io/f/XXXX`. Submissions arrive as JSON with `type: "quotation" | "newsletter"`.
    - Google Sheets: deploy an Apps Script web app that appends `JSON.parse(e.postData.contents)` to a sheet and returns 200.
 2. Replace placeholder content: hero stats, product spec numbers, chart data, landmark facts, dealer list (`DEALERS` in main.js), depots (`PLACES`), testimonials (`VOICES`), news cards, certifications.
-3. Update `https://www.anwarcement.com/` in `index.html` (canonical, og:url, JSON-LD) and `sitemap.xml` if the domain differs.
+3. The site URL is currently `https://anwar-cement-website.vercel.app/` (canonical, og:url, og:image, JSON-LD, sitemap, robots). When the custom domain goes live, search-and-replace it in `index.html`, `sitemap.xml` and `robots.txt`.
 4. Optional: replace the hand-simplified Bangladesh outline (`BD` array in main.js) with a GeoJSON-derived one.
 5. Optional: re-encode hero videos with ffmpeg (`-crf 28`) for ~3 MB each.
 

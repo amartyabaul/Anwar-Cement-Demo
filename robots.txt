@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://www.anwarcement.com/sitemap.xml
+Sitemap: https://anwar-cement-website.vercel.app/sitemap.xml
