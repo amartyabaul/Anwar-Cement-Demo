@@ -828,13 +828,32 @@
   const dlList = $("#dlList"), dlSearch = $("#dlSearch"), dlCount = $("#dlCount"), dlSort = $("#dlSort"), dlMap = $("#dlMap");
   let dlDiv = "all", you = null, dlMarkers = new Map();
 
-  // mini dot map (reuses the national outline + projection)
+  // mini dot map (same look as the network map: dot matrix + markers)
+  const dlDots = [];
   const dg = el("g");
-  for (let y = STEP / 2; y < H; y += STEP) for (let x = STEP / 2; x < W; x += STEP) if (inside(x, y)) dg.appendChild(el("circle", { cx: x, cy: y, r: 3, class: "mdot" }));
+  for (let y = STEP / 2; y < H; y += STEP) for (let x = STEP / 2; x < W; x += STEP) if (inside(x, y)) { const c = el("circle", { cx: x, cy: y, r: 3.2, class: "mdot" }); dg.appendChild(c); dlDots.push({ c, x, y }); }
   dlMap.appendChild(dg);
   const dmG = el("g"); dlMap.appendChild(dmG);
-  DEALERS.forEach(d => { const c = el("circle", { cx: px(d.lon), cy: py(d.lat), r: 6, class: "dm" }); c.addEventListener("click", () => { dlSearch.value = d.d; renderDealers(); }); dmG.appendChild(c); dlMarkers.set(d, c); });
+  DEALERS.forEach(d => {
+    const x = px(d.lon), y = py(d.lat);
+    const g = el("g", { class: "mk mk--depot", transform: `translate(${x} ${y})`, tabindex: 0, role: "button", "aria-label": d.n });
+    g.appendChild(el("circle", { r: 10, class: "mk__halo" }));
+    g.appendChild(el("circle", { r: 5.5, class: "mk__core" }));
+    const label = el("text", { x: 14, y: 4, class: "mk__label" }); label.textContent = d.d; g.appendChild(label);
+    g.addEventListener("click", () => { dlSearch.value = d.d; renderDealers(); });
+    g.addEventListener("mouseenter", () => litDealer(d));
+    g.addEventListener("mouseleave", () => litDealer(null));
+    dmG.appendChild(g); dlMarkers.set(d, { g, x, y });
+  });
   const youG = el("g", { class: "youG" }); dlMap.appendChild(youG);
+  let litD = null;
+  const litDealer = d => {
+    if (litD) dlMarkers.get(litD).g.classList.remove("is-active");
+    litD = d;
+    if (!d) { dlDots.forEach(o => { o.c.classList.remove("is-lit"); o.c.setAttribute("r", 3.2); }); return; }
+    const m = dlMarkers.get(d); m.g.classList.add("is-active");
+    dlDots.forEach(o => { const dist = Math.hypot(o.x - m.x, o.y - m.y), lit = dist < 40; o.c.classList.toggle("is-lit", lit); o.c.setAttribute("r", lit ? (3.2 + (1 - dist / 40) * 2.6).toFixed(1) : 3.2); });
+  };
 
   const km = (a, b) => { const R = 6371, dLat = (b.lat - a.lat) * Math.PI / 180, dLon = (b.lon - a.lon) * Math.PI / 180;
     const h = Math.sin(dLat / 2) ** 2 + Math.cos(a.lat * Math.PI / 180) * Math.cos(b.lat * Math.PI / 180) * Math.sin(dLon / 2) ** 2; return 2 * R * Math.asin(Math.sqrt(h)); };
@@ -857,13 +876,14 @@
           <a class="wa" href="https://wa.me/88${d.p}?text=${encodeURIComponent("Hello " + d.n + ", I'd like to order Anwar Cement.")}" target="_blank" rel="noopener">WhatsApp</a>
           <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(d.n + ", " + d.a)}" target="_blank" rel="noopener">Directions</a>
         </div>`;
-      const mk = dlMarkers.get(DEALERS.find(x => x.n === d.n));
-      li.addEventListener("mouseenter", () => mk.classList.add("is-active"));
-      li.addEventListener("mouseleave", () => mk.classList.remove("is-active"));
+      const src = DEALERS.find(x => x.n === d.n);
+      li.addEventListener("mouseenter", () => litDealer(src));
+      li.addEventListener("mouseleave", () => litDealer(null));
       dlList.appendChild(li);
     });
     const names = new Set(list.map(d => d.n));
-    DEALERS.forEach(d => dlMarkers.get(d).classList.toggle("is-dim", !names.has(d.n)));
+    DEALERS.forEach(d => dlMarkers.get(d).g.classList.toggle("is-hidden", !names.has(d.n)));
+    if (list.length === 1) litDealer(DEALERS.find(x => x.n === list[0].n)); else litDealer(null);
     gsap.from(dlList.children, { opacity: 0, y: 10, stagger: .04, duration: .5, ease: "power2.out", clearProps: "all" });
   };
   dlSearch.addEventListener("input", () => { you = null; youG.innerHTML = ""; renderDealers(); });

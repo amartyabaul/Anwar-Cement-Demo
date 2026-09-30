@@ -612,10 +612,12 @@ section[id]{scroll-margin-top:84px}
 /* =====================================================================
    NETWORK MAP (Phase 3)
    ===================================================================== */
-.network{background:var(--paper);padding:clamp(80px,10vw,140px) 0;overflow:clip;position:relative}
+.network{background:var(--paper);padding:clamp(56px,8vh,120px) 0;overflow:clip;position:relative}
+.network .sec-title{font-size:clamp(28px,min(3.8vw,5.4vh),54px)}
+.network .sec-lead{font-size:clamp(14px,1.7vh,17px)}
 .network__in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(40px,6vw,100px);align-items:center}
-.layers{display:flex;flex-wrap:wrap;gap:8px;margin:30px 0 26px}
-.layer{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px;border:1px solid rgba(14,15,17,.14);font-family:var(--font-display);font-weight:600;font-size:13.5px;color:var(--ink);transition:all .3s var(--ease)}
+.layers{display:flex;flex-wrap:wrap;gap:8px;margin:clamp(16px,2.6vh,28px) 0 clamp(14px,2.2vh,24px)}
+.layer{display:inline-flex;align-items:center;gap:8px;padding:9px 15px;border-radius:999px;border:1px solid rgba(14,15,17,.14);font-family:var(--font-display);font-weight:600;font-size:13.5px;color:var(--ink);transition:all .3s var(--ease)}
 .layer i{width:8px;height:8px;border-radius:50%;background:var(--ink)}
 .layer .i-plant{background:var(--red);box-shadow:0 0 0 3px rgba(221,41,48,.2)}
 .layer .i-depot{background:var(--ink)}
@@ -625,20 +627,20 @@ section[id]{scroll-margin-top:84px}
 .layer.is-active i{background:#fff}
 .layer.is-active .i-plant{background:var(--red)}
 
-.netcard{padding:22px 24px;border-radius:18px;background:var(--stone);border:1px solid rgba(14,15,17,.06);display:flex;flex-direction:column;gap:6px;min-height:150px;position:relative}
+.netcard{padding:16px 20px;border-radius:16px;background:var(--stone);border:1px solid rgba(14,15,17,.06);display:flex;flex-direction:column;gap:4px;min-height:118px;position:relative}
 .netcard::before{content:"";position:absolute;left:0;top:22px;bottom:22px;width:3px;border-radius:3px;background:var(--red)}
 .netcard__type{font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:var(--red)}
-.netcard__name{font-family:var(--font-display);font-weight:700;font-size:20px;letter-spacing:-.02em}
-.netcard__desc{font-size:14px;line-height:1.6;color:var(--steel)}
+.netcard__name{font-family:var(--font-display);font-weight:700;font-size:18px;letter-spacing:-.02em}
+.netcard__desc{font-size:13.5px;line-height:1.55;color:var(--steel)}
 .netcard__loc{font-family:var(--font-display);font-size:12.5px;font-weight:600;color:var(--ink);margin-top:2px;display:flex;align-items:center;gap:6px}
 .netcard__loc::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--red)}
 
-.netstats{display:grid;grid-template-columns:repeat(4,auto);gap:22px 36px;margin-top:30px;justify-content:start}
+.netstats{display:grid;grid-template-columns:repeat(4,auto);gap:18px 32px;margin-top:clamp(16px,2.6vh,28px);justify-content:start}
 .netstats li{display:flex;flex-direction:column}
-.netstats b{font-family:var(--font-display);font-weight:700;font-size:clamp(26px,2.4vw,36px);letter-spacing:-.03em;line-height:1}
+.netstats b{font-family:var(--font-display);font-weight:700;font-size:clamp(24px,2vw,30px);letter-spacing:-.03em;line-height:1}
 .netstats li>span{font-size:12.5px;color:var(--steel);font-weight:600;margin-top:4px}
 
-.map{position:relative;width:100%;max-width:560px;margin-inline:auto}
+.map{position:relative;width:100%;max-width:min(560px,54vh);margin-inline:auto}
 .map__svg{width:100%;height:auto;display:block;overflow:visible}
 .map .mdot{fill:rgba(14,15,17,.16);transition:fill .3s,r .4s var(--ease)}
 .map .mdot.is-lit{fill:var(--red)}
@@ -887,7 +889,7 @@ details[open] summary::before{transform:rotate(45deg)}
 .dl__near.is-busy{opacity:.6;pointer-events:none}
 .dl__divs{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 14px}
 .dl__meta{display:flex;justify-content:space-between;font-size:12.5px;color:var(--steel);font-weight:600;margin-bottom:10px;letter-spacing:.04em}
-.dl__list{display:flex;flex-direction:column;gap:10px;max-height:560px;overflow-y:auto;padding-right:6px;scrollbar-width:thin}
+.dl__list{display:flex;flex-direction:column;gap:10px}
 .dcard{display:grid;grid-template-columns:1fr auto;gap:8px 18px;padding:18px 20px;border-radius:18px;border:1px solid rgba(14,15,17,.08);background:var(--paper);transition:border-color .3s,transform .4s var(--ease),box-shadow .4s;cursor:pointer}
 .dcard:hover,.dcard.is-active{border-color:var(--ink);transform:translateX(4px);box-shadow:0 20px 40px -30px rgba(0,0,0,.35)}
 .dcard__name{font-family:var(--font-display);font-weight:700;font-size:16px;letter-spacing:-.01em;display:flex;align-items:center;gap:8px}
@@ -900,12 +902,10 @@ details[open] summary::before{transform:rotate(45deg)}
 .dcard__acts a:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
 .dcard__acts a.wa:hover{background:#25D366;border-color:#25D366}
 .dl__empty{padding:40px;text-align:center;color:var(--steel);font-size:14px}
-.dl__map{position:sticky;top:100px;padding:20px;border-radius:24px;background:var(--stone)}
+.dl__map{position:sticky;top:96px;max-width:min(520px,calc(100vh - 160px)*0.706);margin-inline:auto;width:100%}
 .dl__map .map__svg{width:100%;height:auto;overflow:visible}
-.dl__map .mdot{fill:rgba(14,15,17,.14)}
-.dl__map .dm{fill:var(--red);stroke:#fff;stroke-width:2;cursor:pointer;transition:r .3s,opacity .3s}
-.dl__map .dm.is-dim{opacity:.18}
-.dl__map .dm.is-active{r:9}
+.dl__map .mdot{fill:rgba(14,15,17,.16);transition:fill .3s,r .4s var(--ease)}
+.dl__map .mdot.is-lit{fill:var(--red)}
 .dl__map .you{fill:var(--ink);stroke:#fff;stroke-width:2.5}
 .dl__map .you-halo{fill:var(--ink);opacity:.2;transform-origin:center;transform-box:fill-box;animation:halo 2.4s ease-out infinite}
 .dl__legend{display:flex;gap:18px;margin-top:6px;font-size:12px;font-weight:600;color:var(--steel)}
@@ -987,6 +987,7 @@ details[open] summary::before{transform:rotate(45deg)}
 @media (max-width:1024px){
   .dl{grid-template-columns:1fr}
   .dl__map{position:relative;top:auto;max-width:420px;margin:0 auto;order:-1}
+  .dl__list{max-height:none}
   .quote__in{grid-template-columns:1fr}
 }
 @media (max-width:640px){
