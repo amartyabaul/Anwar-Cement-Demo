@@ -10,6 +10,10 @@
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const finePointer  = matchMedia("(hover:hover) and (pointer:fine)").matches;
   const skipIntro    = new URLSearchParams(location.search).has("nointro"); // dev helper
+  // product bag photos: white-background variant in light mode, dark variant in dark mode
+  const bagSrc = src => document.documentElement.dataset.theme === "dark" ? src.replace("-white.webp", ".webp") : src.replace(/(-white)?\.webp$/, "-white.webp");
+  const applyBagImages = () => $$('img[src*="/products/"]').forEach(i => { const want = bagSrc(i.getAttribute("src")); if (i.getAttribute("src") !== want) i.setAttribute("src", want); });
+  applyBagImages();
   const CFG = Object.assign({ WHATSAPP: "8809612345678", HOTLINE: "+8809612345678", FORM_ENDPOINT: "", GA4_ID: "" }, window.AC_CONFIG || {});
 
   /* -------------------------------------------------------------------
@@ -401,7 +405,7 @@
     $$("#finderChips .chipbtn").forEach(b => b.classList.toggle("is-active", b === btn));
     const r = FINDER[btn.dataset.job], m = BRAND_META[r.b];
     gsap.to(fRes, { opacity: 0, y: 10, duration: .2, onComplete: () => {
-      fImg.src = m.img; fName.textContent = m.name; fWhy.textContent = r.why;
+      fImg.src = bagSrc(m.img); fName.textContent = m.name; fWhy.textContent = r.why;
       gsap.to(fRes, { opacity: 1, y: 0, duration: .6, ease: "expo.out" });
     }});
   }));
@@ -742,7 +746,7 @@
     gsap.from(row.children, { opacity: 0, y: 6, stagger: .01, duration: .4, ease: "power2.out" });
     // brand
     const jm = JOB_META[job], bm = BRAND_META2[jm.brand];
-    cq("rBrandImg").src = bm.img; cq("rBrandName").textContent = bm.name; cq("rBrandWhy").textContent = jm.why;
+    cq("rBrandImg").src = bagSrc(bm.img); cq("rBrandName").textContent = bm.name; cq("rBrandWhy").textContent = jm.why;
     cq("howText").innerHTML = r.how;
     // WhatsApp
     cq("waBtn").href = "https://wa.me/?text=" + encodeURIComponent(summary());
@@ -1097,4 +1101,23 @@
     gsap.to("main, section, footer, .header", { opacity: .4, duration: .15, onComplete: () => { setLang(next); gsap.to("main, section, footer, .header", { opacity: 1, duration: .4 }); } });
   }));
   try { const saved = localStorage.getItem("ac_lang"); if (saved === "bn") setLang("bn"); } catch {}
+
+  /* -------------------------------------------------------------------
+     23. THEME — light / dark
+     ------------------------------------------------------------------- */
+  const themeMeta = document.querySelector('meta[name="theme-color"]');
+  const setTheme = (t, animate = true) => {
+    const root = document.documentElement;
+    if (animate) { root.classList.add("is-theming"); setTimeout(() => root.classList.remove("is-theming"), 450); }
+    root.dataset.theme = t;
+    try { localStorage.setItem("ac_theme", t); } catch {}
+    if (themeMeta) themeMeta.content = t === "dark" ? "#0E0F11" : "#DD2930";
+    $$("[data-theme-toggle]").forEach(b => { b.setAttribute("aria-pressed", t === "dark"); b.setAttribute("aria-label", t === "dark" ? "Switch to light mode" : "Switch to dark mode"); });
+    applyBagImages();
+  };
+  $$("[data-theme-toggle]").forEach(b => b.addEventListener("click", () => setTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark")));
+  { const cur = document.documentElement.dataset.theme || "light"; let chosen = null; try { chosen = localStorage.getItem("ac_theme"); } catch {}
+    setTheme(cur, false); if (!chosen) { try { localStorage.removeItem("ac_theme"); } catch {} } }
+  // follow the OS only until the visitor picks a theme
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", e => { try { if (!localStorage.getItem("ac_theme")) setTheme(e.matches ? "dark" : "light"); } catch {} });
 })();
