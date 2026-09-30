@@ -420,7 +420,7 @@
       gsap.to(track, {
         x: () => -dist(), ease: "none",
         scrollTrigger: {
-          trigger: "#landmarks", start: "top top", end: () => "+=" + dist(),
+          trigger: "#landmarks", start: "top 72px", end: () => "+=" + dist(),
           pin: true, scrub: .8, anticipatePin: 1, invalidateOnRefresh: true,
           onUpdate: self => {
             galBar.style.width = (self.progress * 100) + "%";
