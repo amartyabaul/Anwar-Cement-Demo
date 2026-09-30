@@ -827,6 +827,7 @@
   ];
   const dlList = $("#dlList"), dlSearch = $("#dlSearch"), dlCount = $("#dlCount"), dlSort = $("#dlSort"), dlMap = $("#dlMap");
   let dlDiv = "all", you = null, dlMarkers = new Map();
+  const DL_INITIAL = 6; let dlShowAll = false;
 
   // mini dot map (same look as the network map: dot matrix + markers)
   const dlDots = [];
@@ -865,7 +866,8 @@
     dlCount.textContent = `${list.length} dealer${list.length === 1 ? "" : "s"}`;
     dlSort.textContent = you ? "Sorted by distance" : q ? `Matching “${dlSearch.value.trim()}”` : "";
     dlList.innerHTML = list.length ? "" : `<li class="dl__empty">No dealer matches. Try a district name, or call our hotline and we'll connect you.</li>`;
-    list.forEach((d, i) => {
+    const shown = dlShowAll ? list : list.slice(0, DL_INITIAL);
+    shown.forEach((d, i) => {
       const li = document.createElement("li");
       li.className = "dcard";
       li.innerHTML = `<div class="dcard__name"><i></i>${d.n}</div>
@@ -881,13 +883,19 @@
       li.addEventListener("mouseleave", () => litDealer(null));
       dlList.appendChild(li);
     });
+    if (list.length > DL_INITIAL) {
+      const li = document.createElement("li"); li.className = "dl__more";
+      li.innerHTML = `<button type="button" class="btn btn--outline btn--dark"><span class="btn__label">${dlShowAll ? "Show fewer" : `See all ${list.length} dealers`}</span></button>`;
+      li.querySelector("button").addEventListener("click", () => { dlShowAll = !dlShowAll; renderDealers(); if (!dlShowAll) scrollToEl("#dlList", -120); });
+      dlList.appendChild(li);
+    }
     const names = new Set(list.map(d => d.n));
     DEALERS.forEach(d => dlMarkers.get(d).g.classList.toggle("is-hidden", !names.has(d.n)));
     if (list.length === 1) litDealer(DEALERS.find(x => x.n === list[0].n)); else litDealer(null);
     gsap.from(dlList.children, { opacity: 0, y: 10, stagger: .04, duration: .5, ease: "power2.out", clearProps: "all" });
   };
-  dlSearch.addEventListener("input", () => { you = null; youG.innerHTML = ""; renderDealers(); });
-  $$("#dlDivs .chipbtn").forEach(b => b.addEventListener("click", () => { $$("#dlDivs .chipbtn").forEach(x => x.classList.toggle("is-active", x === b)); dlDiv = b.dataset.div; renderDealers(); }));
+  dlSearch.addEventListener("input", () => { you = null; youG.innerHTML = ""; dlShowAll = false; renderDealers(); });
+  $$("#dlDivs .chipbtn").forEach(b => b.addEventListener("click", () => { $$("#dlDivs .chipbtn").forEach(x => x.classList.toggle("is-active", x === b)); dlDiv = b.dataset.div; dlShowAll = false; renderDealers(); }));
   $("#dlNear").addEventListener("click", () => {
     if (!navigator.geolocation) return toast("Location not supported on this device");
     const btn = $("#dlNear"); btn.classList.add("is-busy");
