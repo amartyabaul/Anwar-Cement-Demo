@@ -651,6 +651,7 @@ def product_page(pr):
   <script src="js/i18n.js"></script>
   <script src="js/calculator.js"></script>
   <script src="js/page.js"></script>
+  <script src="js/motion.js"></script>
 </body>
 </html>
 '''
@@ -720,6 +721,7 @@ def page(pg):
   <script src="js/i18n.js"></script>
   <script src="js/calculator.js"></script>
   <script src="js/page.js"></script>
+  <script src="js/motion.js"></script>
 </body>
 </html>
 '''

@@ -128,7 +128,8 @@ section[id]{scroll-margin-top:84px}
 /* =====================================================================
    HEADER
    ===================================================================== */
-.header{position:fixed;top:0;left:0;right:0;z-index:100;background:var(--paper)}
+.header{position:fixed;top:0;left:0;right:0;z-index:100;background:var(--paper);transition:transform .6s var(--ease)}
+.header.is-hidden{transform:translateY(-100%)}
 body{padding-top:calc(var(--header-h) + var(--top-h))}
 .header__top{
   height:var(--top-h);background:var(--topbar);color:#C8CBD0;font-size:12.5px;font-weight:500;
@@ -1502,3 +1503,39 @@ html[data-theme="dark"] .person__photo.is-placeholder img{filter:invert(1) hue-r
 .dl-item em svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 @media (max-width:1024px){.newsgrid,.tvc{grid-template-columns:repeat(2,1fr)}.galgrid{grid-template-columns:repeat(3,1fr);grid-auto-rows:200px}.feat{grid-template-columns:1fr}}
 @media (max-width:720px){.newsgrid,.tvc,.dls{grid-template-columns:1fr}.galgrid{grid-template-columns:repeat(2,1fr);grid-auto-rows:160px}.event{grid-template-columns:64px 1fr}.event .link-arrow{grid-column:2}}
+
+/* =====================================================================
+   MOTION LAYER (js/motion.js) — page transitions, progress, headings, images
+   ===================================================================== */
+/* page-to-page: the old page sinks back into the dark, the new one rises over it;
+   the header is its own layer so it stays put while the content changes */
+@media (prefers-reduced-motion:no-preference){
+  @view-transition{navigation:auto}
+}
+@media (min-width:961px){html:not(.vt-theme) .header{view-transition-name:site-header}}
+::view-transition{background:#0E0F11}
+::view-transition-old(root){animation:vt-sink .6s cubic-bezier(.7,0,.2,1) both}
+::view-transition-new(root){animation:vt-rise .75s cubic-bezier(.7,0,.2,1) .08s both}
+::view-transition-group(site-header){animation-duration:.5s}
+@keyframes vt-sink{to{transform:translateY(-4%) scale(.94);opacity:.25;filter:blur(3px);border-radius:24px}}
+@keyframes vt-rise{from{clip-path:inset(100% 0 0 0 round 28px 28px 0 0)}to{clip-path:inset(0 0 0 0 round 0)}}
+
+/* theme switch: a circle grows from the toggle (driven from JS) */
+html.vt-theme::view-transition{background:none}
+html.vt-theme::view-transition-old(root),html.vt-theme::view-transition-new(root){animation:none;mix-blend-mode:normal}
+html.vt-theme::view-transition-old(root){z-index:1}
+html.vt-theme::view-transition-new(root){z-index:2}
+
+/* reading progress */
+.sprog{position:fixed;top:0;left:0;right:0;height:3px;z-index:120;background:var(--red);transform:scaleX(0);transform-origin:left;pointer-events:none}
+
+/* headings: words sit in a mask and rise into place */
+.mw{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.1em;margin-bottom:-.1em}
+.mw__i{display:inline-block;will-change:transform}
+.sec-title em,.phero__title em{
+  background:linear-gradient(var(--red),var(--red)) no-repeat 0 92%/0% .07em;
+  -webkit-box-decoration-break:clone;box-decoration-break:clone;
+  transition:background-size 1.1s var(--ease);
+}
+.sec-title.is-drawn em,.phero__title.is-drawn em{background-size:100% .07em}
+.no-anim .mw__i{transform:none!important}

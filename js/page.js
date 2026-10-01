@@ -90,7 +90,8 @@
   }
 
   /* intro + reveals */
-  gsap.fromTo(".phero .crumbs, .phero .eyebrow, .phero__title, .phero__lead, .phero__chips, .phero__cta, .phero__stats, .phero__bag", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 1, stagger: .08, ease: "expo.out", clearProps: "transform" });
+  gsap.set(".phero__title", { opacity: 1 });   // its words rise in from motion.js
+  gsap.fromTo(".phero .crumbs, .phero .eyebrow, .phero__lead, .phero__chips, .phero__cta, .phero__stats, .phero__bag", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 1, stagger: .08, ease: "expo.out", clearProps: "transform" });
   gsap.fromTo(".phero__bg", { scale: 1.12 }, { scale: 1.04, duration: 1.8, ease: "expo.out" });
   if (!reduceMotion) gsap.to(".phero__bg", { yPercent: 14, ease: "none", scrollTrigger: { trigger: ".phero", start: "top top", end: "bottom top", scrub: true } });
   $$("[data-reveal]").forEach(el => gsap.to(el, { opacity: 1, y: 0, duration: 1.1, ease: "expo.out", onComplete: () => { el.classList.add("is-in"); gsap.set(el, { clearProps: "all" }); }, scrollTrigger: { trigger: el, start: "top 88%", once: true } }));
@@ -153,7 +154,10 @@
     $$("[data-theme-toggle]").forEach(b => { b.setAttribute("aria-pressed", t === "dark"); b.setAttribute("aria-label", t === "dark" ? "Switch to light mode" : "Switch to dark mode"); });
     applyBagImages();
   };
-  $$("[data-theme-toggle]").forEach(b => b.addEventListener("click", () => setTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark")));
+  $$("[data-theme-toggle]").forEach(b => b.addEventListener("click", () => {
+    const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark", go = animate => setTheme(next, animate);
+    window.AC_themeSwap ? window.AC_themeSwap(b, go) : go(true);   // circular reveal lives in motion.js
+  }));
   { const cur = document.documentElement.dataset.theme || "light"; let chosen = null; try { chosen = localStorage.getItem("ac_theme"); } catch {} setTheme(cur, false); if (!chosen) { try { localStorage.removeItem("ac_theme"); } catch {} } }
   matchMedia("(prefers-color-scheme: dark)").addEventListener("change", e => { try { if (!localStorage.getItem("ac_theme")) setTheme(e.matches ? "dark" : "light"); } catch {} });
 })();

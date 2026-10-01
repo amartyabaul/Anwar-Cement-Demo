@@ -957,7 +957,10 @@
     $$("[data-theme-toggle]").forEach(b => { b.setAttribute("aria-pressed", t === "dark"); b.setAttribute("aria-label", t === "dark" ? "Switch to light mode" : "Switch to dark mode"); });
     applyBagImages();
   };
-  $$("[data-theme-toggle]").forEach(b => b.addEventListener("click", () => setTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark")));
+  $$("[data-theme-toggle]").forEach(b => b.addEventListener("click", () => {
+    const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark", go = animate => setTheme(next, animate);
+    window.AC_themeSwap ? window.AC_themeSwap(b, go) : go(true);   // circular reveal lives in motion.js
+  }));
   { const cur = document.documentElement.dataset.theme || "light"; let chosen = null; try { chosen = localStorage.getItem("ac_theme"); } catch {}
     setTheme(cur, false); if (!chosen) { try { localStorage.removeItem("ac_theme"); } catch {} } }
   // follow the OS only until the visitor picks a theme
