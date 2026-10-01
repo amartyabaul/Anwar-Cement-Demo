@@ -5,7 +5,7 @@ Run from the project root after editing the header, footer or this file:
 The generated *.html files are committed, so no build step is needed to deploy."""
 import re, os, datetime
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SITE = "https://anwar-cement-website.vercel.app/"
+SITE = "https://anwar-cement-demo-gray.vercel.app/"
 idx = open(os.path.join(ROOT, "index.html"), encoding="utf-8").read()
 
 def between(s, a, b):
@@ -599,8 +599,8 @@ def product_page(pr):
   <link rel="canonical" href="{SITE}{pr["slug"]}.html">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
   <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
-  <meta property="og:type" content="product"><meta property="og:site_name" content="Anwar Cement"><meta property="og:title" content="{pr["nav"]} — Anwar Cement"><meta property="og:description" content="{pr["desc"]}"><meta property="og:url" content="{SITE}{pr["slug"]}.html"><meta property="og:image" content="{SITE}{pr["img"]}">
-  <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{pr["nav"]} — Anwar Cement"><meta name="twitter:description" content="{pr["desc"]}"><meta name="twitter:image" content="{SITE}{pr["img"]}">
+  <meta property="og:type" content="product"><meta property="og:site_name" content="Anwar Cement"><meta property="og:title" content="{pr["nav"]} — Anwar Cement"><meta property="og:description" content="{pr["desc"]}"><meta property="og:url" content="{SITE}{pr["slug"]}.html"><meta property="og:image" content="{SITE}assets/icons/og-image.jpg?v=2"><meta property="og:image:secure_url" content="{SITE}assets/icons/og-image.jpg?v=2"><meta property="og:image:type" content="image/jpeg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Anwar Cement logo with Anwar Cement Special, Shoktiman and Lion cement bags">
+  <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{pr["nav"]} — Anwar Cement"><meta name="twitter:description" content="{pr["desc"]}"><meta name="twitter:image" content="{SITE}assets/icons/og-image.jpg?v=2"><meta name="twitter:image:alt" content="Anwar Cement logo with Anwar Cement Special, Shoktiman and Lion cement bags">
   <link rel="preload" as="font" type="font/woff2" href="assets/fonts/Sora-400-latin.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="assets/fonts/Manrope-400-latin.woff2" crossorigin>
   <link rel="stylesheet" href="css/fonts.css">
@@ -669,8 +669,8 @@ def page(pg):
   <link rel="canonical" href="{SITE}{pg["slug"]}.html">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
   <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
-  <meta property="og:type" content="article"><meta property="og:site_name" content="Anwar Cement"><meta property="og:title" content="{pg["nav"]} — Anwar Cement"><meta property="og:description" content="{pg["desc"]}"><meta property="og:url" content="{SITE}{pg["slug"]}.html"><meta property="og:image" content="{SITE}assets/icons/og-image.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
-  <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{pg["nav"]} — Anwar Cement"><meta name="twitter:description" content="{pg["desc"]}"><meta name="twitter:image" content="{SITE}assets/icons/og-image.jpg">
+  <meta property="og:type" content="article"><meta property="og:site_name" content="Anwar Cement"><meta property="og:title" content="{pg["nav"]} — Anwar Cement"><meta property="og:description" content="{pg["desc"]}"><meta property="og:url" content="{SITE}{pg["slug"]}.html"><meta property="og:image" content="{SITE}assets/icons/og-image.jpg?v=2"><meta property="og:image:secure_url" content="{SITE}assets/icons/og-image.jpg?v=2"><meta property="og:image:type" content="image/jpeg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Anwar Cement logo with Anwar Cement Special, Shoktiman and Lion cement bags">
+  <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{pg["nav"]} — Anwar Cement"><meta name="twitter:description" content="{pg["desc"]}"><meta name="twitter:image" content="{SITE}assets/icons/og-image.jpg?v=2"><meta name="twitter:image:alt" content="Anwar Cement logo with Anwar Cement Special, Shoktiman and Lion cement bags">
   <link rel="preload" as="font" type="font/woff2" href="assets/fonts/Sora-400-latin.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="assets/fonts/Manrope-400-latin.woff2" crossorigin>
   <link rel="stylesheet" href="css/fonts.css">
