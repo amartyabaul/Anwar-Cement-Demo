@@ -23,7 +23,12 @@ window.AC_initCalculator = function ({ $, $$, toast, bagSrc }) {
     { name: "Lion Cement",          img: "assets/img/products/lion.webp",          mini: "assets/img/bag-mini/lion.webp" },
   ];
   const cq = id => $("#" + id);
-  const num = id => Math.max(0, parseFloat(cq(id).value) || 0);
+  // accept Bangla (০-৯) and Arabic-Indic digits and a comma decimal; keep only one decimal point
+  const toAscii = s => String(s)
+    .replace(/[০-৯]/g, d => d.charCodeAt(0) - 0x09E6)
+    .replace(/[٠-٩۰-۹]/g, d => (d.charCodeAt(0) - 0x0660) % 0x90)
+    .replace(/,/g, ".").replace(/[^\d.]/g, "").replace(/(\..*?)\./g, "$1");
+  const num = id => Math.max(0, parseFloat(toAscii(cq(id).value)) || 0);
   let job = "slab", cunit = "ft", last = null;
 
   const fmt = (n, d = 0) => n.toLocaleString("en-US", { maximumFractionDigits: d, minimumFractionDigits: d });
@@ -115,6 +120,11 @@ window.AC_initCalculator = function ({ $, $$, toast, bagSrc }) {
     const f = b.dataset.cunit === "m" ? FT : 1 / FT;
     ["inL", "inW", "inH", "inB", "inD"].forEach(id => (cq(id).value = +(num(id) * f).toFixed(2)));
     cunit = b.dataset.cunit; showFields(); render();
+  }));
+  // number boxes are type="text" (a number input rejects Bangla digits); clean what is typed as it is typed
+  $$("#calculator input[inputmode]").forEach(i => i.addEventListener("input", () => {
+    const clean = toAscii(i.value);
+    if (clean !== i.value) { const pos = Math.max(0, (i.selectionStart || 0) - (i.value.length - clean.length)); i.value = clean; try { i.setSelectionRange(pos, pos); } catch {} }
   }));
   $$("#calculator input, #calculator select").forEach(i => i.addEventListener("input", render));
   $$("[data-preset]").forEach(b => b.addEventListener("click", () => {

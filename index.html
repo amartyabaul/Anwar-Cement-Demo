@@ -656,13 +656,13 @@
           </div>
 
           <div class="fields" id="fields">
-            <label class="field" data-for="slab column brick plaster floor"><span id="lblL">Length <em>(ft)</em></span><input type="number" id="inL" value="20" min="0" step="0.5" inputmode="decimal"></label>
-            <label class="field" data-for="slab floor"><span id="lblW">Width <em>(ft)</em></span><input type="number" id="inW" value="15" min="0" step="0.5" inputmode="decimal"></label>
-            <label class="field" data-for="brick plaster column"><span id="lblH">Height <em>(ft)</em></span><input type="number" id="inH" value="10" min="0" step="0.5" inputmode="decimal"></label>
-            <label class="field" data-for="column"><span id="lblB">Breadth <em>(ft)</em></span><input type="number" id="inB" value="1" min="0" step="0.25" inputmode="decimal"></label>
-            <label class="field" data-for="slab floor"><span>Thickness <em>(inches)</em></span><input type="number" id="inT" value="5" min="1" step="0.5" inputmode="decimal"></label>
-            <label class="field" data-for="column"><span>Depth <em>(ft)</em></span><input type="number" id="inD" value="1" min="0" step="0.25" inputmode="decimal"></label>
-            <label class="field" data-for="column"><span>Number of columns</span><input type="number" id="inN" value="1" min="1" step="1" inputmode="numeric"></label>
+            <label class="field" data-for="slab brick plaster floor"><span id="lblL">Length <em>(ft)</em></span><input autocomplete="off" type="text" id="inL" value="20" inputmode="decimal"></label>
+            <label class="field" data-for="slab floor"><span id="lblW">Width <em>(ft)</em></span><input autocomplete="off" type="text" id="inW" value="15" inputmode="decimal"></label>
+            <label class="field" data-for="brick plaster column"><span id="lblH">Height <em>(ft)</em></span><input autocomplete="off" type="text" id="inH" value="10" inputmode="decimal"></label>
+            <label class="field" data-for="column"><span id="lblB">Breadth <em>(ft)</em></span><input autocomplete="off" type="text" id="inB" value="1" inputmode="decimal"></label>
+            <label class="field" data-for="slab floor"><span>Thickness <em>(inches)</em></span><input autocomplete="off" type="text" id="inT" value="5" inputmode="decimal"></label>
+            <label class="field" data-for="column"><span>Depth <em>(ft)</em></span><input autocomplete="off" type="text" id="inD" value="1" inputmode="decimal"></label>
+            <label class="field" data-for="column"><span>Number of columns</span><input autocomplete="off" type="text" id="inN" value="1" inputmode="numeric"></label>
             <label class="field" data-for="plaster"><span>Plaster thickness</span><select id="inPT"><option value="12">12 mm (internal)</option><option value="15">15 mm</option><option value="20" selected>20 mm (external)</option></select></label>
             <label class="field" data-for="brick"><span>Wall thickness</span><select id="inWT"><option value="5">5" (half brick)</option><option value="10" selected>10" (full brick)</option></select></label>
             <label class="field" data-for="slab column floor"><span>Concrete mix</span><select id="inMix"><option value="1:1:2">1 : 1 : 2 (M25)</option><option value="1:1.5:3" selected>1 : 1.5 : 3 (M20)</option><option value="1:2:4">1 : 2 : 4 (M15)</option><option value="1:3:6">1 : 3 : 6 (M10)</option></select></label>
@@ -684,10 +684,10 @@
           <details class="prices">
             <summary>Unit prices (BDT) <span>edit to match your local market</span></summary>
             <div class="prices__grid">
-              <label>Cement / bag<input type="number" id="pCement" value="560" min="0"></label>
-              <label>Sand / cft<input type="number" id="pSand" value="45" min="0"></label>
-              <label>Stone chips / cft<input type="number" id="pAgg" value="230" min="0"></label>
-              <label>Brick / piece<input type="number" id="pBrick" value="12" min="0"></label>
+              <label>Cement / bag<input autocomplete="off" inputmode="decimal" type="text" id="pCement" value="560"></label>
+              <label>Sand / cft<input autocomplete="off" inputmode="decimal" type="text" id="pSand" value="45"></label>
+              <label>Stone chips / cft<input autocomplete="off" inputmode="decimal" type="text" id="pAgg" value="230"></label>
+              <label>Brick / piece<input autocomplete="off" inputmode="decimal" type="text" id="pBrick" value="12"></label>
             </div>
           </details>
 
