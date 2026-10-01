@@ -601,9 +601,7 @@ def product_page(pr):
   <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
   <meta property="og:type" content="product"><meta property="og:site_name" content="Anwar Cement"><meta property="og:title" content="{pr["nav"]} — Anwar Cement"><meta property="og:description" content="{pr["desc"]}"><meta property="og:url" content="{SITE}{pr["slug"]}.html"><meta property="og:image" content="{SITE}{pr["img"]}">
   <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{pr["nav"]} — Anwar Cement"><meta name="twitter:description" content="{pr["desc"]}"><meta name="twitter:image" content="{SITE}{pr["img"]}">
-  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/Sora-700-latin.woff2" crossorigin>
-  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/Sora-600-latin.woff2" crossorigin>
-  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/Manrope-500-latin.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/Sora-400-latin.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="assets/fonts/Manrope-400-latin.woff2" crossorigin>
   <link rel="stylesheet" href="css/fonts.css">
   <meta name="color-scheme" content="light dark">
@@ -673,9 +671,7 @@ def page(pg):
   <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
   <meta property="og:type" content="article"><meta property="og:site_name" content="Anwar Cement"><meta property="og:title" content="{pg["nav"]} — Anwar Cement"><meta property="og:description" content="{pg["desc"]}"><meta property="og:url" content="{SITE}{pg["slug"]}.html"><meta property="og:image" content="{SITE}assets/icons/og-image.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{pg["nav"]} — Anwar Cement"><meta name="twitter:description" content="{pg["desc"]}"><meta name="twitter:image" content="{SITE}assets/icons/og-image.jpg">
-  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/Sora-700-latin.woff2" crossorigin>
-  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/Sora-600-latin.woff2" crossorigin>
-  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/Manrope-500-latin.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/Sora-400-latin.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="assets/fonts/Manrope-400-latin.woff2" crossorigin>
   <link rel="stylesheet" href="css/fonts.css">
   <meta name="color-scheme" content="light dark">

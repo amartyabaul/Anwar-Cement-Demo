@@ -198,12 +198,20 @@
      ------------------------------------------------------------------- */
   const footBottom = $(".footer__bottom");
   if (footBottom) {
-    const mark = document.createElement("div");
-    mark.className = "footer__mark"; mark.setAttribute("aria-hidden", "true");
+    const wrap = document.createElement("div"), mark = document.createElement("div");
+    wrap.className = "footer__markwrap"; mark.className = "footer__mark"; mark.setAttribute("aria-hidden", "true");
     mark.innerHTML = [..."ANWAR CEMENT"].map(ch => ch === " " ? `<span class="fm__gap"></span>` : `<span class="fm__l"><span>${ch}</span></span>`).join("");
-    footBottom.before(mark);
-    const fit = () => { mark.style.fontSize = "100px"; mark.style.fontSize = (100 * mark.parentElement.clientWidth / mark.scrollWidth).toFixed(2) + "px"; };
-    fit(); addEventListener("resize", fit);
+    wrap.append(mark); footBottom.before(wrap);
+    // the reduced-motion rule gives every property a 1ms transition, which would make the measure below read stale sizes
+    mark.style.setProperty("transition", "none", "important");
+    // CSS sizes it from the wrapper width (cqw); this refines it to the exact pixel once fonts are in
+    // refits when the wrapper resizes and when the mark itself changes width (late web-font swap)
+    const fit = () => {
+      const w = wrap.clientWidth; if (!w || Math.abs(mark.scrollWidth - w) <= 1) return;
+      mark.style.fontSize = "100px";
+      mark.style.fontSize = Math.floor(100 * w / mark.scrollWidth * 100) / 100 + "px";
+    };
+    const ro = new ResizeObserver(fit); ro.observe(wrap); ro.observe(mark);
     document.fonts && document.fonts.ready.then(() => { fit(); ScrollTrigger.refresh(); });
     const letters = $$(".fm__l > span", mark);
     if (!reduceMotion) {

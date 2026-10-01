@@ -1577,3 +1577,93 @@ html.vt-theme::view-transition-new(root){z-index:2}
 .footer__title .mw{padding-bottom:.12em;margin-bottom:-.12em}
 .footer__title em{background:linear-gradient(var(--red),var(--red)) no-repeat 0 92%/0% .07em;-webkit-box-decoration-break:clone;box-decoration-break:clone;transition:background-size 1.1s var(--ease)}
 .footer__title.is-drawn em{background-size:100% .07em}
+
+
+/* =====================================================================
+   RESPONSIVE FIXES (audit at 360 / 390 / 768 / 1024)
+   ===================================================================== */
+/* footer wordmark never wider than the container */
+.footer__markwrap{container-type:inline-size;overflow-x:clip;margin:clamp(10px,3vw,40px) 0 clamp(20px,3vw,36px)}
+.footer__markwrap .footer__mark{margin:0;font-size:calc(100cqw / 8.9)}
+
+/* network: heading and filters first, the map follows */
+@media (max-width:1024px){
+  .network__map{order:0;margin-inline:auto;width:100%}
+}
+
+/* testimonial marquee cards fit a phone screen */
+@media (max-width:560px){
+  .vcard-t{width:min(400px,82vw);padding:22px}
+  .vcard-t__q{font-size:14.5px}
+}
+
+/* dealer search: icon + input on one row, "Near me" full width below */
+@media (max-width:640px){
+  .dl__search{flex-wrap:wrap;border-radius:20px;padding:8px 8px 8px 16px;row-gap:8px}
+  .dl__search input{flex:1 1 0;width:auto;min-width:0}
+  .dl__near{flex:1 1 100%;width:100%;justify-content:center}
+}
+
+/* strength chart: fit the card instead of hiding the 28-day point off-screen;
+   text and strokes are in viewBox units, so they are enlarged to stay legible */
+@media (max-width:600px){
+  .chart{overflow:visible}
+  .chart__svg{min-width:0}
+  .chart .axis text{font-size:24px}
+  .chart .ref-label{font-size:21px}
+  .chart .end-label{font-size:24px}
+  .chart .line{stroke-width:4.5}
+  .chart .ref{stroke-width:3}
+}
+
+/* calculator: "Unit prices (BDT)" hint drops under the title */
+@media (max-width:560px){
+  .prices summary{flex-wrap:wrap;row-gap:2px}
+  .prices summary span{flex-basis:100%;padding-left:28px}
+}
+
+/* product pages: the mix table becomes stacked rows */
+@media (max-width:560px){
+  .mixes,.mixes tbody{display:block}
+  .mixes tr:first-child{display:none}
+  .mixes tr{display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;padding:14px 0;border-bottom:1px solid rgba(var(--ink-rgb),.08)}
+  .mixes td{display:block;padding:0;border:0;font-size:13.5px}
+  .mixes td:first-child{grid-column:1/-1;font-size:15px}
+  .mixes td:nth-child(2)::before,.mixes td:nth-child(3)::before{display:block;font-family:var(--font-display);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--steel);margin-bottom:2px}
+  .mixes td:nth-child(2)::before{content:"Use"}
+  .mixes td:nth-child(3)::before{content:"Cement"}
+}
+
+/* products showcase on tablets: whole bag on the left, details on the right (no cropped close-up) */
+@media (min-width:640px) and (max-width:1100px){
+  .panel{display:grid;grid-template-columns:minmax(0,.78fr) minmax(0,1fr);column-gap:clamp(24px,4vw,48px);align-items:center}
+  .panel__bag{grid-column:1;grid-row:1 / span 12;align-self:center;max-height:none;aspect-ratio:4/5;object-fit:cover;object-position:center;margin:0;-webkit-mask-image:none;mask-image:none}
+  .panel > :not(.panel__bag){grid-column:2}
+}
+
+/* the floating WhatsApp button steps aside while the mobile menu is open */
+body:has(.nav__menu.is-open) .fab{opacity:0;visibility:hidden;pointer-events:none}
+
+/* very small phones (320px): grid tracks may shrink below their longest word, headings step down a size */
+.grid2 > *,.grid3 > *,.grid4 > *,.psec .container > *,.metrics > *{min-width:0}
+.icard h3,.icard p{overflow-wrap:break-word}
+@media (max-width:360px){
+  .sec-title{font-size:27px}
+  .phero__title{font-size:34px}
+  .icard{padding:20px}
+  .icard h3,.icard p{overflow-wrap:anywhere}
+}
+
+/* phones in landscape: short screens get a slimmer header and smaller hero type */
+@media (max-height:500px) and (orientation:landscape){
+  :root{--header-h:60px}
+  .nav,.header.is-scrolled .nav{height:var(--header-h)}
+  .nav__logo img,.header.is-scrolled .nav__logo img{height:36px}
+  .hero{min-height:calc(100svh - var(--header-h))}
+  .hero__in{padding-top:22px}
+  .hero__title{font-size:clamp(30px,9vh,42px)}
+  .hero__eyebrow{margin-bottom:10px}
+  .hero__lead{font-size:14.5px;margin-bottom:14px}
+  .phero__title{font-size:clamp(28px,8.5vh,40px)}
+  .phero__bag{width:min(28vw,200px)}
+}
