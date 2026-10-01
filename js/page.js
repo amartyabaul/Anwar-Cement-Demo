@@ -17,6 +17,7 @@
   const bagSrc = src => document.documentElement.dataset.theme === "dark" ? src.replace("-white.webp", ".webp") : src.replace(/(-white)?\.webp$/, "-white.webp");
   const applyBagImages = () => $$('img[src*="/products/"]').forEach(i => { if (i.closest("[data-bag-static]")) return; const want = bagSrc(i.getAttribute("src")); if (i.getAttribute("src") !== want) i.setAttribute("src", want); });
   applyBagImages();
+  (window.requestIdleCallback || (f => setTimeout(f, 1500)))(() => { const seen = new Set(); $$('img[src*="/products/"]').forEach(i => { const src = i.getAttribute("src"); const alt = src.includes("-white.webp") ? src.replace("-white.webp", ".webp") : src.replace(".webp", "-white.webp"); if (!seen.has(alt)) { seen.add(alt); new Image().src = alt; } }); });
 
   /* smooth scroll */
   const lenis = (!reduceMotion && window.Lenis) ? new Lenis({ lerp: .11, smoothWheel: true }) : null;
@@ -80,10 +81,10 @@
   }
 
   /* intro + reveals */
-  gsap.from(".phero .crumbs, .phero .eyebrow, .phero__title, .phero__lead, .phero__stats", { y: 24, opacity: 0, duration: 1, stagger: .08, ease: "expo.out", clearProps: "all" });
+  gsap.fromTo(".phero .crumbs, .phero .eyebrow, .phero__title, .phero__lead, .phero__chips, .phero__cta, .phero__stats, .phero__bag", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 1, stagger: .08, ease: "expo.out", clearProps: "transform" });
   gsap.fromTo(".phero__bg", { scale: 1.12 }, { scale: 1.04, duration: 1.8, ease: "expo.out" });
   if (!reduceMotion) gsap.to(".phero__bg", { yPercent: 14, ease: "none", scrollTrigger: { trigger: ".phero", start: "top top", end: "bottom top", scrub: true } });
-  $$("[data-reveal]").forEach(el => gsap.to(el, { opacity: 1, y: 0, duration: 1.1, ease: "expo.out", scrollTrigger: { trigger: el, start: "top 88%", once: true } }));
+  $$("[data-reveal]").forEach(el => gsap.to(el, { opacity: 1, y: 0, duration: 1.1, ease: "expo.out", onComplete: () => { el.classList.add("is-in"); gsap.set(el, { clearProps: "all" }); }, scrollTrigger: { trigger: el, start: "top 88%", once: true } }));
   $$("[data-stagger]").forEach(wrap => gsap.from(wrap.children, { opacity: 0, y: 24, duration: .9, stagger: .07, ease: "expo.out", clearProps: "all", scrollTrigger: { trigger: wrap, start: "top 85%", once: true } }));
   $$("[data-count]").forEach(el => ScrollTrigger.create({ trigger: el, start: "top 90%", once: true, onEnter: () => {
     const to = parseFloat(el.dataset.count), dec = String(el.dataset.count).includes(".") ? 1 : 0, o = { v: 0 };

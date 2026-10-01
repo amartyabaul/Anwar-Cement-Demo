@@ -14,6 +14,7 @@
   const bagSrc = src => document.documentElement.dataset.theme === "dark" ? src.replace("-white.webp", ".webp") : src.replace(/(-white)?\.webp$/, "-white.webp");
   const applyBagImages = () => $$('img[src*="/products/"]').forEach(i => { const want = bagSrc(i.getAttribute("src")); if (i.getAttribute("src") !== want) i.setAttribute("src", want); });
   applyBagImages();
+  (window.requestIdleCallback || (f => setTimeout(f, 1500)))(() => { const seen = new Set(); $$('img[src*="/products/"]').forEach(i => { const src = i.getAttribute("src"); const alt = src.includes("-white.webp") ? src.replace("-white.webp", ".webp") : src.replace(".webp", "-white.webp"); if (!seen.has(alt)) { seen.add(alt); new Image().src = alt; } }); });
   const CFG = Object.assign({ WHATSAPP: "8809612345678", HOTLINE: "+8809612345678", FORM_ENDPOINT: "", GA4_ID: "" }, window.AC_CONFIG || {});
 
   /* -------------------------------------------------------------------
@@ -72,6 +73,7 @@
     const clip = PLAYLIST[i];
     if (video.dataset.src === clip.src) return resolve();
     video.dataset.src = clip.src;
+    video.preload = "auto";
     video.src = clip.src;
     video.load();
     const done = () => { video.removeEventListener("canplay", done); resolve(); };
@@ -93,7 +95,10 @@
     if (token !== playToken) return;   // a newer request superseded this one
     nextLayer.currentTime = 0;
     nextLayer.muted = true;   // hero video is always silent
+    const started = new Promise(res => { const done = () => { nextLayer.removeEventListener("playing", done); res(); }; nextLayer.addEventListener("playing", done); setTimeout(res, 1500); });
     nextLayer.play().catch(() => { /* autoplay blocked: poster stays */ });
+    await started;
+    if (token !== playToken) return;
 
     nextLayer.classList.add("is-front");
     prevLayer.classList.remove("is-front");
@@ -261,8 +266,8 @@
      7. HERO PARALLAX on scroll
      ------------------------------------------------------------------- */
   if (!reduceMotion) {
-    gsap.to("#heroMedia", {
-      yPercent: 18, scale: 1.06, ease: "none",
+    gsap.to(".hero__video", {
+      yPercent: 18, scale: 1.1, ease: "none",
       scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true },
     });
     gsap.to(".hero__in", {
@@ -307,6 +312,7 @@
   $$("[data-reveal]").forEach(el => {
     gsap.to(el, {
       opacity: 1, y: 0, duration: 1.1, ease: "expo.out",
+      onComplete: () => { el.classList.add("is-in"); gsap.set(el, { clearProps: "all" }); },
       scrollTrigger: { trigger: el, start: "top 85%", once: true },
     });
   });
@@ -488,6 +494,8 @@
   const el = (tag, attrs = {}) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); return e; };
 
   // dot matrix
+  const defs = el("defs"), mask = el("mask", { id: "mapReveal", maskUnits: "userSpaceOnUse", x: 0, y: 0, width: W, height: H });
+  const maskCircle = el("circle", { cx: W / 2, cy: H / 2, r: 0, fill: "#fff" }); mask.appendChild(maskCircle); defs.appendChild(mask); svg.appendChild(defs);
   const dotsG = el("g", { class: "map__dots" });
   const STEP = 13, mdots = [];
   for (let y = STEP / 2; y < H; y += STEP) for (let x = STEP / 2; x < W; x += STEP) {
@@ -563,7 +571,7 @@
     onToggle: self => { if (self.isActive && !$("#network").dataset.counted) {
       $("#network").dataset.counted = 1;
       $$(".count-v").forEach(c => { const o = { v: 0 }; gsap.to(o, { v: +c.dataset.to, duration: 1.6, ease: "power3.out", onUpdate: () => (c.textContent = Math.round(o.v).toLocaleString("en-US")) }); });
-      gsap.from(".map__dots circle", { opacity: 0, scale: 0, transformOrigin: "center", stagger: { amount: 1.2, from: "center", grid: "auto" }, duration: .6, ease: "power2.out" });
+      gsap.to(maskCircle, { attr: { r: Math.hypot(W, H) / 2 + 20 }, duration: 1.4, ease: "power2.out", onComplete: () => dotsG.removeAttribute("style") });
       gsap.from(".map__marks .mk", { opacity: 0, stagger: .05, duration: .7, ease: "power2.out", delay: .8, clearProps: "opacity" });
     } },
   });
@@ -866,7 +874,7 @@
   const vcard = v => `<article class="vcard-t"><div class="vcard-t__stars">${star.repeat(5)}</div><p class="vcard-t__q">“${v.q}”</p>
     <div class="vcard-t__who"><span class="vcard-t__av${v.red ? " is-red" : ""}">${v.c}</span><div><b>${v.n}</b><span>${v.r}</span></div><span class="vcard-t__tag">${v.t}</span></div></article>`;
   const rowA = VOICES.slice(0, 4), rowB = VOICES.slice(4);
-  $("#vrows").innerHTML = `<div class="vrow">${[...rowA, ...rowA, ...rowA].map(vcard).join("")}</div><div class="vrow vrow--rev">${[...rowB, ...rowB, ...rowB].map(vcard).join("")}</div>`;
+  $("#vrows").innerHTML = `<div class="vrow">${[...rowA, ...rowA].map(vcard).join("")}</div><div class="vrow vrow--rev">${[...rowB, ...rowB].map(vcard).join("")}</div>`;
 
   /* -------------------------------------------------------------------
      20. MEDIA — tabs + lightbox

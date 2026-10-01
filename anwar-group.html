@@ -12,8 +12,11 @@
   <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
   <meta property="og:type" content="article"><meta property="og:site_name" content="Anwar Cement"><meta property="og:title" content="Anwar Group — Anwar Cement"><meta property="og:description" content="Anwar Group of Industries: history, sectors and concerns, the parent of Anwar Cement Limited."><meta property="og:url" content="https://anwar-cement-website.vercel.app/anwar-group.html"><meta property="og:image" content="https://anwar-cement-website.vercel.app/assets/icons/og-image.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Anwar Group — Anwar Cement"><meta name="twitter:description" content="Anwar Group of Industries: history, sectors and concerns, the parent of Anwar Cement Limited."><meta name="twitter:image" content="https://anwar-cement-website.vercel.app/assets/icons/og-image.jpg">
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/Sora-700-latin.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/Sora-600-latin.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/Manrope-500-latin.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/Manrope-400-latin.woff2" crossorigin>
+  <link rel="stylesheet" href="css/fonts.css">
   <meta name="color-scheme" content="light dark">
   <script>(function(){try{var q=new URLSearchParams(location.search).get("theme");var t=q||localStorage.getItem("ac_theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");document.documentElement.setAttribute("data-theme",t);}catch(e){}})()</script>
   <link rel="stylesheet" href="css/style.css">
@@ -25,20 +28,6 @@
   <div class="cursor" id="cursor"><span class="cursor__dot"></span><span class="cursor__label"></span></div>
 
   <header class="header" id="header">
-    <div class="header__top">
-      <div class="container header__top-in">
-        <div class="header__top-left">
-          <span class="dot dot--live"></span> Hotline&nbsp;<a href="tel:+8809612345678">+880 96123 45678</a>
-          <span class="sep"></span>
-          <a href="mailto:info@anwarcement.com">info@anwarcement.com</a>
-        </div>
-        <div class="header__top-right">
-          <a href="#" data-soon>Dealer Login</a><span class="sep"></span><a href="#" data-soon>Careers</a><span class="sep"></span>
-          <button class="lang" type="button" data-lang-toggle><span class="lang__en">EN</span>/<span class="lang__bn">বাং</span></button>
-        </div>
-      </div>
-    </div>
-
     <nav class="nav" aria-label="Primary">
       <div class="container nav__in">
         <a class="nav__logo" href="index.html#hero" aria-label="Anwar Cement home">
@@ -137,7 +126,7 @@
         <h1 class="phero__title">One of the oldest<br>business houses of <em>Bangladesh.</em></h1>
         <p class="phero__lead">Founded in 1834, Anwar Group of Industries has grown from a trading house in Old Dhaka into a diversified conglomerate spanning textiles, cement, steel, polymer, real estate, automobiles and financial services.</p>
       </div>
-      <div class="phero__stats"><div><b>1834</b><span>Founded</span></div><div><b>20+</b><span>Concerns</span></div><div><b>15k+</b><span>People</span></div></div>
+      <div class="phero__stats"><div><b>1834</b><span>Founded</span></div><div><b>18</b><span>Concerns</span></div><div><b>14k</b><span>People</span></div></div>
     </div>
   </section>
 
@@ -146,7 +135,7 @@
       <span class="eyebrow"><span class="dot dot--red"></span>The group</span>
       <p class="lead" style="margin-top:14px">Nearly two centuries of doing business in Bangladesh, and a portfolio built around things the country needs: cloth, cement, steel, homes and finance.</p>
       <p>Anwar Group's approach has stayed consistent across generations: invest in production, own the quality, and build for the long term. Anwar Cement applies that same discipline to cement, with the group's engineering, logistics and financial strength behind it.</p>
-      <p>Group concerns and dates below are indicative placeholders to be replaced with the official group profile.</p>
+      <p>Anwar Cement Limited was established in 2002 with a clinker grinding plant on the Meghna at Gazaria, and has since supplied national landmarks from the Mayor Hanif Flyover to the Rooppur Nuclear Power Plant.</p>
     </div>
     <aside class="aside-card" data-reveal>
       <h4>Group facts</h4>
@@ -154,8 +143,8 @@
         <li><span>Founded</span><b>1834, Dhaka</b></li>
         <li><span>Headquarters</span><b>Baitul Hossain Building, Dilkusha</b></li>
         <li><span>Sectors</span><b>8</b></li>
-        <li><span>Concerns</span><b>20+</b></li>
-        <li><span>Employees</span><b>15,000+ (indicative)</b></li>
+        <li><span>Concerns</span><b>18</b></li>
+        <li><span>Employees</span><b>~14,000</b></li>
         <li><span>Website</span><b><a href="#" data-soon>anwargroup.com</a></b></li>
       </ul>
     </aside>
@@ -253,6 +242,7 @@
   <script src="js/vendor/gsap.min.js"></script>
   <script src="js/vendor/ScrollTrigger.min.js"></script>
   <script src="js/vendor/lenis.min.js"></script>
+  <script>if(!window.gsap)document.documentElement.classList.add("no-anim")</script>
   <script src="js/i18n.js"></script>
   <script src="js/calculator.js"></script>
   <script src="js/page.js"></script>

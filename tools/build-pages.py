@@ -50,6 +50,15 @@ def cta(title, text):
       <div class="pcta__actions"><a class="btn btn--primary btn--magnetic" href="index.html#quote"><span class="btn__label" data-i18n="cta.quote">Get a Quotation</span>{ARROW}</a><a class="btn btn--ghost" href="index.html#dealers"><span class="btn__label">Find a dealer</span></a></div>
     </div></div></section>'''
 
+# Leadership photos: drop a file at assets/img/people/<slug>.jpg (or .png/.webp), re-run this script.
+def photo(slug):
+    for ext in ("jpg", "jpeg", "png", "webp"):
+        if os.path.exists(os.path.join(ROOT, "assets/img/people", f"{slug}.{ext}")): return f"assets/img/people/{slug}.{ext}"
+    return "assets/img/people/placeholder.svg"
+def person(slug, name, role, bio, wide=False):
+    src = photo(slug); ph = ' is-placeholder' if src.endswith("placeholder.svg") else ''
+    return f'<div class="person{" person--wide" if wide else ""}"><figure class="person__photo{ph}"><img src="{src}" alt="{name}" loading="lazy" decoding="async"></figure><div><h3>{name}</h3><div class="person__role">{role}</div><p{" style=margin-top:10px" if wide else ""}>{bio}</p></div></div>'
+
 PAGES = [
  dict(slug="about", nav="About Anwar Cement", title="Built on a legacy.<br>Made for <em>tomorrow.</em>", eyebrow="About Anwar Cement",
   desc="The story, values and people behind Anwar Cement Limited, a concern of Anwar Group of Industries.",
@@ -103,19 +112,19 @@ PAGES = [
  dict(slug="leadership", nav="Leadership", title="The people who<br><em>set the standard.</em>", eyebrow="Leadership",
   desc="Board of directors and management team of Anwar Cement Limited.",
   lead="A board with three generations of industrial experience, and a management team that runs the plant, the laboratory and the network every single day.",
-  bg="assets/img/decor/city-center.webp", stats=[("1834","Group founded"),("190+","Years of trade"),("20+","Group concerns")],
+  bg="assets/img/decor/city-center.webp", stats=[("1834","Group founded"),("18","Group concerns"),("14,000+","People")],
   prev=("About","about.html"), next=("Milestones","milestones.html"),
   body=lambda: f'''
   <section class="psec"><div class="container">
-    <div class="sec-head" data-reveal><div><span class="eyebrow"><span class="dot dot--red"></span>Board of directors</span><h2 class="sec-title">Guided by<br><em>experience.</em></h2></div><p class="sec-lead">Names, designations and biographies below are placeholders to be replaced with the official board profile.</p></div>
+    <div class="sec-head" data-reveal><div><span class="eyebrow"><span class="dot dot--red"></span>Board of directors</span><h2 class="sec-title">Guided by<br><em>experience.</em></h2></div><p class="sec-lead">The leadership of Anwar Group of Industries, the parent of Anwar Cement Limited, as published by the group.</p></div>
     <div class="people" data-stagger>
-      <div class="person person--wide"><span class="person__av is-red">MH</span><div><h3>Manwar Hossain</h3><div class="person__role">Chairman</div><p style="margin-top:10px">Leads Anwar Group of Industries and chairs the boards of its manufacturing concerns. Under his stewardship the group expanded from textiles and jute into cement, steel, polymer and real estate, while keeping the family's commitment to long-term, quality-first investment.</p></div></div>
-      <div class="person"><span class="person__av">HH</span><div><h3>Hossain Mehmood</h3><div class="person__role">Vice Chairman</div></div><p>Oversees group strategy and finance, and sponsored the Vertical Roller Mill upgrade at the Gazaria plant.</p></div>
-      <div class="person"><span class="person__av">HK</span><div><h3>Hossain Khaled</h3><div class="person__role">Managing Director</div></div><p>Responsible for the cement business end to end: manufacturing, quality, sales and the nationwide dealer network.</p></div>
-      <div class="person"><span class="person__av">WH</span><div><h3>Waiz Rahim</h3><div class="person__role">Director</div></div><p>Leads the group's engineering and project functions, including plant expansion and the new silo programme.</p></div>
-      <div class="person"><span class="person__av">NA</span><div><h3>Nasreen Ahmed</h3><div class="person__role">Independent Director</div></div><p>Chartered accountant and audit committee chair, with two decades in manufacturing finance and governance.</p></div>
-      <div class="person"><span class="person__av">SR</span><div><h3>Dr. Salim Rahman</h3><div class="person__role">Independent Director</div></div><p>Professor of civil engineering; advises the board on materials standards, durability and research partnerships.</p></div>
-      <div class="person"><span class="person__av">AK</span><div><h3>Anisul Karim</h3><div class="person__role">Director, Anwar Group</div></div><p>Represents group interests across its industrial concerns and chairs the sustainability committee.</p></div>
+      {person("manwar-hossain","Manwar Hossain","Chairman, Anwar Group of Industries · Managing Director, Anwar Cement Ltd.","Leads Anwar Group of Industries and its Building Materials Division. Educated at St Paul's School, Darjeeling, he completed his MBA at the University of New Hampshire in 1992 and joined the family business in 1993. Former Group Managing Director and Vice-Chairman of The City Bank, he was elected Chairman in September 2021, succeeding the founder, Alhaj Anwar Hossain.", wide=True)}
+      {person("hossain-mehmood","Hossain Mehmood","Vice-Chairman, Anwar Group of Industries","Leads the group's Textile Division. A member of the Chartered Institute of Management Accountants, he serves on the board of the Bangladesh Textile Mills Association and as Vice President of BKMEA.")}
+      {person("hossain-khaled","Hossain Khaled","Group Managing Director, Anwar Group of Industries","Leads the Real Estate, Infrastructure Construction, Jute and Automobile divisions. The youngest-ever President of the Dhaka Chamber of Commerce & Industry, elected at 33, and Vice-Chairman of The City Bank. Holds a bachelor's in Accounting and a master's in International Banking from the United States.")}
+      {person("hossain-akhter","Hossain Akhtar","Executive Director, Anwar Group of Industries","Group Executive Director with decades of service across Anwar Group's manufacturing and trading concerns, including its cement operations, and previously Group Executive Director at Ford Bangladesh.")}
+      {person("furkaan-hossain","Furkaan N Hossain","Deputy Managing Director · Director, Anwar Cement Ltd.","Director of Anwar Cement Ltd. and founder and Managing Director of Anwar Enterprise Systems, the group's technology company. Holds a BSc in Computer Science from Colorado State University and serves as a Director of the Dhaka Chamber of Commerce & Industry.")}
+      {person("waeez-r-hossain","Waeez R Hossain","Deputy Managing Director, Anwar Group of Industries","Oversees the building materials, steel, cement, polymer, cement sheet and foundry businesses, guiding strategy, operations and digital transformation. MBA from Georgetown University's McDonough School of Business; formerly at Bain Capital; co-founder of Anwar Enterprise Systems.")}
+      {person("faizah-mehmood","Faizah Mehmood","Deputy Managing Director, Anwar Group of Industries","Leads within the Textile Division. BCom from Rotman Commerce, University of Toronto, and MS from Johns Hopkins University; previously with Ernst & Young, Edotco and Incepta. Committee Member of the Bangladesh Employers' Federation and Director of BTTLMEA.")}
     </div>
   </div></section>
 
@@ -135,13 +144,14 @@ PAGES = [
       </ul>
     </div>
     <aside class="aside-card" data-reveal>
-      <h4>Governance</h4>
+      <h4>Group at a glance</h4>
       <ul class="facts">
-        <li><span>Board size</span><b>7 directors</b></li>
-        <li><span>Independent</span><b>2</b></li>
-        <li><span>Committees</span><b>Audit · Sustainability · Nomination</b></li>
-        <li><span>Auditor</span><b>To be confirmed</b></li>
-        <li><span>Reporting</span><b>Annual report &amp; ISO audits</b></li>
+        <li><span>Founded</span><b>1834 · Dhaka</b></li>
+        <li><span>Founder Chairman</span><b>Alhaj Anwar Hossain</b></li>
+        <li><span>Chairman since</span><b>14 Sep 2021</b></li>
+        <li><span>Concerns</span><b>18</b></li>
+        <li><span>People</span><b>~14,000</b></li>
+        <li><span>Anwar Cement</span><b>Est. 2002 · Gazaria</b></li>
       </ul>
     </aside>
   </div></section>
@@ -265,7 +275,7 @@ PAGES = [
  dict(slug="anwar-group", nav="Anwar Group", title="One of the oldest<br>business houses of <em>Bangladesh.</em>", eyebrow="Anwar Group of Industries",
   desc="Anwar Group of Industries: history, sectors and concerns, the parent of Anwar Cement Limited.",
   lead="Founded in 1834, Anwar Group of Industries has grown from a trading house in Old Dhaka into a diversified conglomerate spanning textiles, cement, steel, polymer, real estate, automobiles and financial services.",
-  bg="assets/img/decor/bsmmu.webp", stats=[("1834","Founded"),("20+","Concerns"),("15k+","People")],
+  bg="assets/img/decor/bsmmu.webp", stats=[("1834","Founded"),("18","Concerns"),("14k","People")],
   prev=("Sustainability","sustainability.html"), next=("About","about.html"),
   body=lambda: '''
   <section class="psec"><div class="container twocol">
@@ -273,7 +283,7 @@ PAGES = [
       <span class="eyebrow"><span class="dot dot--red"></span>The group</span>
       <p class="lead" style="margin-top:14px">Nearly two centuries of doing business in Bangladesh, and a portfolio built around things the country needs: cloth, cement, steel, homes and finance.</p>
       <p>Anwar Group's approach has stayed consistent across generations: invest in production, own the quality, and build for the long term. Anwar Cement applies that same discipline to cement, with the group's engineering, logistics and financial strength behind it.</p>
-      <p>Group concerns and dates below are indicative placeholders to be replaced with the official group profile.</p>
+      <p>Anwar Cement Limited was established in 2002 with a clinker grinding plant on the Meghna at Gazaria, and has since supplied national landmarks from the Mayor Hanif Flyover to the Rooppur Nuclear Power Plant.</p>
     </div>
     <aside class="aside-card" data-reveal>
       <h4>Group facts</h4>
@@ -281,8 +291,8 @@ PAGES = [
         <li><span>Founded</span><b>1834, Dhaka</b></li>
         <li><span>Headquarters</span><b>Baitul Hossain Building, Dilkusha</b></li>
         <li><span>Sectors</span><b>8</b></li>
-        <li><span>Concerns</span><b>20+</b></li>
-        <li><span>Employees</span><b>15,000+ (indicative)</b></li>
+        <li><span>Concerns</span><b>18</b></li>
+        <li><span>Employees</span><b>~14,000</b></li>
         <li><span>Website</span><b><a href="#" data-soon>anwargroup.com</a></b></li>
       </ul>
     </aside>
@@ -591,8 +601,11 @@ def product_page(pr):
   <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
   <meta property="og:type" content="product"><meta property="og:site_name" content="Anwar Cement"><meta property="og:title" content="{pr["nav"]} — Anwar Cement"><meta property="og:description" content="{pr["desc"]}"><meta property="og:url" content="{SITE}{pr["slug"]}.html"><meta property="og:image" content="{SITE}{pr["img"]}">
   <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{pr["nav"]} — Anwar Cement"><meta name="twitter:description" content="{pr["desc"]}"><meta name="twitter:image" content="{SITE}{pr["img"]}">
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/Sora-700-latin.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/Sora-600-latin.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/Manrope-500-latin.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/Manrope-400-latin.woff2" crossorigin>
+  <link rel="stylesheet" href="css/fonts.css">
   <meta name="color-scheme" content="light dark">
   <script>(function(){{try{{var q=new URLSearchParams(location.search).get("theme");var t=q||localStorage.getItem("ac_theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");document.documentElement.setAttribute("data-theme",t);}}catch(e){{}}}})()</script>
   <link rel="stylesheet" href="css/style.css">
@@ -634,6 +647,7 @@ def product_page(pr):
   <script src="js/vendor/gsap.min.js"></script>
   <script src="js/vendor/ScrollTrigger.min.js"></script>
   <script src="js/vendor/lenis.min.js"></script>
+  <script>if(!window.gsap)document.documentElement.classList.add("no-anim")</script>
   <script src="js/i18n.js"></script>
   <script src="js/calculator.js"></script>
   <script src="js/page.js"></script>
@@ -658,8 +672,11 @@ def page(pg):
   <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
   <meta property="og:type" content="article"><meta property="og:site_name" content="Anwar Cement"><meta property="og:title" content="{pg["nav"]} — Anwar Cement"><meta property="og:description" content="{pg["desc"]}"><meta property="og:url" content="{SITE}{pg["slug"]}.html"><meta property="og:image" content="{SITE}assets/icons/og-image.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{pg["nav"]} — Anwar Cement"><meta name="twitter:description" content="{pg["desc"]}"><meta name="twitter:image" content="{SITE}assets/icons/og-image.jpg">
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/Sora-700-latin.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/Sora-600-latin.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/Manrope-500-latin.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/Manrope-400-latin.woff2" crossorigin>
+  <link rel="stylesheet" href="css/fonts.css">
   <meta name="color-scheme" content="light dark">
   <script>(function(){{try{{var q=new URLSearchParams(location.search).get("theme");var t=q||localStorage.getItem("ac_theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");document.documentElement.setAttribute("data-theme",t);}}catch(e){{}}}})()</script>
   <link rel="stylesheet" href="css/style.css">
@@ -678,7 +695,7 @@ def page(pg):
     <div class="container phero__in">
       <div>
         <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><i></i><span>{pg.get("group","Company")}</span><i></i><span>{pg["nav"]}</span></nav>
-        <span class="eyebrow"><span class="dot dot--red"></span>{pg["eyebrow"]}</span>
+        {('<span class="eyebrow"><span class="dot dot--red"></span>' + pg["eyebrow"] + '</span>') if pg["eyebrow"] else ''}
         <h1 class="phero__title">{pg["title"]}</h1>
         <p class="phero__lead">{pg["lead"]}</p>
       </div>
@@ -699,6 +716,7 @@ def page(pg):
   <script src="js/vendor/gsap.min.js"></script>
   <script src="js/vendor/ScrollTrigger.min.js"></script>
   <script src="js/vendor/lenis.min.js"></script>
+  <script>if(!window.gsap)document.documentElement.classList.add("no-anim")</script>
   <script src="js/i18n.js"></script>
   <script src="js/calculator.js"></script>
   <script src="js/page.js"></script>
@@ -712,7 +730,7 @@ _i = calc_html.index('<div class="sec-head" data-reveal>'); _j = calc_html.index
 calc_html = calc_html[:_i] + calc_html[_j:]
 calc_html = calc_html.replace('<section class="calc" id="calculator">', '<section class="calc" id="calculator" style="padding-top:clamp(40px,6vh,72px)">')
 calc_html = relink(calc_html)
-CALC = dict(slug="calculator", group="Tools", nav="Cement Calculator", title="Know exactly what<br>your build <em>needs.</em>", eyebrow="Smart Cement Calculator",
+CALC = dict(slug="calculator", group="Tools", nav="Cement Calculator", title="Smart Cement<br><em>Calculator</em>", eyebrow="",
   desc="Free cement calculator for Bangladesh: bags of cement, sand, stone chips, bricks and cost for RCC slabs, columns, plaster, brickwork and flooring.",
   lead="Enter your dimensions and get cement bags, sand, aggregate, bricks and an estimated cost in seconds. Share the estimate with your mason or dealer on WhatsApp, or save it as a PDF.",
   bg="assets/img/decor/banner-2.webp", stats=[("5","Types of work"),("ft / m","Units"),("BDT","Cost estimate")],

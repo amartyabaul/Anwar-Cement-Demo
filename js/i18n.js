@@ -12,7 +12,7 @@ window.AC_I18N = {
     "landmarks.eyebrow": ["Built with Anwar", "আনোয়ার দিয়ে গড়া"], "landmarks.title": ["The landmarks that<br>carry our <em>name.</em>", "যে স্থাপনাগুলো বহন করে<br>আমাদের <em>নাম।</em>"],
     "network.eyebrow": ["Nationwide Network", "দেশজুড়ে নেটওয়ার্ক"], "network.title": ["Wherever you build,<br>we're <em>already there.</em>", "যেখানেই গড়ুন,<br>আমরা <em>আগে থেকেই আছি।</em>"],
     "why.eyebrow": ["Why Anwar Cement", "কেন আনোয়ার সিমেন্ট"], "why.title": ["Every bag, the same<br><em>uncompromising</em> standard.", "প্রতিটি ব্যাগে একই<br><em>আপসহীন</em> মান।"],
-    "calc.eyebrow": ["Smart Cement Calculator", "স্মার্ট সিমেন্ট ক্যালকুলেটর"], "calc.title": ["Know exactly what<br>your build <em>needs.</em>", "জেনে নিন আপনার নির্মাণে<br>ঠিক কতটা <em>লাগবে।</em>"],
+    "calc.eyebrow": ["Free online tool", "বিনামূল্যে অনলাইন টুল"], "calc.title": ["Smart Cement<br><em>Calculator</em>", "স্মার্ট সিমেন্ট<br><em>ক্যালকুলেটর</em>"],
     "dealers.eyebrow": ["Dealer Locator", "ডিলার খুঁজুন"], "dealers.title": ["Find Anwar Cement<br><em>near you.</em>", "আপনার <em>কাছের</em><br>আনোয়ার সিমেন্ট ডিলার।"],
     "quote.title": ["Tell us about<br>your project.", "আপনার প্রজেক্ট<br>সম্পর্কে বলুন।"],
     "voices.eyebrow": ["Voices from the site", "সাইট থেকে বলছি"], "voices.title": ["Trusted by the people<br>who <em>pour it.</em>", "যারা ঢালাই করেন,<br>তাদের <em>আস্থা।</em>"],
