@@ -72,7 +72,7 @@ window.AC_initCalculator = function ({ $, $$, toast, bagSrc }) {
 
   const render = () => {
     const r = compute(); last = r;
-    tweenNum(cq("rBags"), r.bags); tweenNum(cq("rCementKg"), r.cementKg); tweenNum(cq("rSand"), r.sandCft, 1);
+    window.AC_odometer ? window.AC_odometer(cq("rBags"), r.bags, { duration: .9 }) : tweenNum(cq("rBags"), r.bags); tweenNum(cq("rCementKg"), r.cementKg); tweenNum(cq("rSand"), r.sandCft, 1);
     tweenNum(cq("rAgg"), r.aggCft, 1); tweenNum(cq("rBrick"), r.bricks); tweenNum(cq("rWater"), r.water); tweenNum(cq("rCost"), r.cost);
     cq("rVol").textContent = fmt(r.wet, 2) + " m³";
     cq("rVolLabel").textContent = job === "brick" ? "Mortar volume" : job === "plaster" ? "Plaster volume" : "Wet volume";
@@ -84,7 +84,7 @@ window.AC_initCalculator = function ({ $, $$, toast, bagSrc }) {
     const row = cq("bagRow"); row.innerHTML = "";
     const glyphs = Math.min(60, Math.ceil(r.bags / 5));
     for (let i = 0; i < glyphs; i++) { const b = document.createElement("i"); if (i === glyphs - 1 && r.bags % 5 && r.bags % 5 <= 2) b.className = "is-half"; row.appendChild(b); }
-    gsap.from(row.children, { opacity: 0, y: 6, stagger: .01, duration: .4, ease: "power2.out" });
+    gsap.from(row.children, { opacity: 0, y: -22, scaleY: .7, transformOrigin: "50% 100%", stagger: { amount: .55 }, duration: .6, ease: "back.out(2.4)" });   // bags drop onto the stack
     // brand
     const jm = JOB_META[job], bm = BRAND_META2[jm.brand];
     cq("rBrandImg").src = bagSrc(bm.img); cq("rBrandName").textContent = bm.name; cq("rBrandWhy").textContent = jm.why;

@@ -98,6 +98,7 @@
   $$("[data-stagger]").forEach(wrap => gsap.from(wrap.children, { opacity: 0, y: 24, duration: .9, stagger: .07, ease: "expo.out", clearProps: "all", scrollTrigger: { trigger: wrap, start: "top 85%", once: true } }));
   $$("[data-count]").forEach(el => ScrollTrigger.create({ trigger: el, start: "top 90%", once: true, onEnter: () => {
     const to = parseFloat(el.dataset.count), dec = String(el.dataset.count).includes(".") ? 1 : 0, o = { v: 0 };
+    if (!dec && window.AC_odometer) return window.AC_odometer(el, to);
     gsap.to(o, { v: to, duration: 1.8, ease: "power3.out", onUpdate: () => (el.textContent = o.v.toLocaleString("en-US", { maximumFractionDigits: dec, minimumFractionDigits: dec })) });
   } }));
   // timeline (milestones)

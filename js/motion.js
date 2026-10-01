@@ -1,7 +1,8 @@
 /* =====================================================================
    ANWAR CEMENT — motion.js  (shared motion layer, loaded after main.js / page.js)
    Scroll progress, smart header, heading line reveals, image wipes,
-   circular theme reveal. Page-to-page transitions live in CSS (@view-transition).
+   circular theme reveal, odometer digits, button label roll, card tilt.
+   Page-to-page transitions live in CSS (@view-transition).
    ===================================================================== */
 (() => {
   "use strict";
@@ -117,6 +118,76 @@
           gsap.to(img, { scale: 1, duration: 1.9, ease: EASE, clearProps: "transform,clipPath" });
         },
       });
+    });
+  }
+
+  /* -------------------------------------------------------------------
+     5. ODOMETER — digits roll into place like a mechanical counter.
+     Used by the hero stats, page stats and the calculator result.
+     ------------------------------------------------------------------- */
+  window.AC_odometer = (el, value, { duration = 1.8, format = v => Math.round(v).toLocaleString("en-US") } = {}) => {
+    const str = format(value);
+    if (reduceMotion) { el.textContent = str; return; }
+    el.setAttribute("aria-label", str);
+    const shape = str.replace(/\d/g, "0");
+    if (!el._odo || el._odo.shape !== shape) {
+      el.textContent = ""; el.classList.add("odo");
+      const cols = [];
+      [...str].forEach(ch => {
+        const span = document.createElement("span"); span.setAttribute("aria-hidden", "true");
+        if (/\d/.test(ch)) {
+          span.className = "odo__d";
+          const reel = document.createElement("span"); reel.className = "odo__s";
+          reel.innerHTML = "01234567890123456789".split("").map(n => `<span>${n}</span>`).join("");
+          span.append(reel); cols.push(reel);
+        } else { span.className = "odo__c"; span.textContent = ch; }
+        el.append(span);
+      });
+      el._odo = { shape, cols };
+    }
+    const digits = str.replace(/\D/g, "");
+    el._odo.cols.forEach((reel, i) => gsap.to(reel, {
+      yPercent: -(10 + +digits[i]) * 5, overwrite: true,
+      duration: duration + (digits.length - 1 - i) * .15, ease: "expo.out",
+    }));
+  };
+
+  /* -------------------------------------------------------------------
+     6. BUTTONS — label rolls up and a copy rises from below on hover
+     ------------------------------------------------------------------- */
+  const wrapRoll = l => { if (!l.firstElementChild?.classList.contains("roll")) l.innerHTML = `<span class="roll">${l.innerHTML}</span>`; };
+  const rollObs = new MutationObserver(ms => ms.forEach(m => wrapRoll(m.target)));   // language switch rewrites labels
+  const armRolls = () => $$(".btn .btn__label").forEach(l => { if (l._roll) return; l._roll = 1; wrapRoll(l); rollObs.observe(l, { childList: true }); });
+  armRolls();
+  new MutationObserver(armRolls).observe(document.body, { childList: true, subtree: true });   // buttons rendered later (dealer list)
+
+  /* -------------------------------------------------------------------
+     7. CARDS — gentle 3D tilt toward the pointer + a soft spotlight
+     ------------------------------------------------------------------- */
+  const finePointer = matchMedia("(hover:hover) and (pointer:fine)").matches;
+  if (finePointer && !reduceMotion) {
+    $$(".icard, .person, .ncard, .lm, .vcard").forEach(card => {
+      card.classList.add("tilt");
+      const spot = document.createElement("i"); spot.className = "spot"; spot.setAttribute("aria-hidden", "true"); card.appendChild(spot);
+      let max = 4;
+      card.addEventListener("pointerenter", () => { max = card.offsetWidth > 700 ? 1.5 : 4; });   // wide cards barely tilt
+      card.addEventListener("pointermove", e => {
+        const r = card.getBoundingClientRect(), px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+        card.style.setProperty("--mx", (px * 100).toFixed(1) + "%"); card.style.setProperty("--my", (py * 100).toFixed(1) + "%");
+        card.style.setProperty("--ry", ((px - .5) * 2 * max).toFixed(2) + "deg"); card.style.setProperty("--rx", ((.5 - py) * 2 * max).toFixed(2) + "deg");
+      });
+      card.addEventListener("pointerleave", () => { card.style.setProperty("--rx", "0deg"); card.style.setProperty("--ry", "0deg"); });
+    });
+
+    /* product bags lean toward the pointer (product pages + home showcase) */
+    [[".phero--product", ".phero__bag"], [".stage", ".stage__bags"]].forEach(([areaSel, bagSel]) => {
+      const area = $(areaSel), bag = area && $(bagSel, area); if (!bag) return;
+      bag.classList.add("bag-lean");
+      area.addEventListener("pointermove", e => {
+        const r = area.getBoundingClientRect(), px = (e.clientX - r.left) / r.width - .5, py = (e.clientY - r.top) / r.height - .5;
+        bag.style.setProperty("--ry", (px * 14).toFixed(2) + "deg"); bag.style.setProperty("--rx", (-py * 8).toFixed(2) + "deg");
+      });
+      area.addEventListener("pointerleave", () => { bag.style.setProperty("--rx", "0deg"); bag.style.setProperty("--ry", "0deg"); });
     });
   }
 

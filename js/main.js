@@ -193,6 +193,7 @@
   function countUp() {
     $$(".count").forEach(el => {
       const to = +el.dataset.to;
+      if (window.AC_odometer) return window.AC_odometer(el, to);
       const obj = { v: 0 };
       gsap.to(obj, {
         v: to, duration: 1.8, ease: "power3.out",
