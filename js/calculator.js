@@ -18,9 +18,9 @@ window.AC_initCalculator = function ({ $, $$, toast, bagSrc }) {
     floor:   { name: "PCC flooring",   brand: 1, why: "Durable, crack-resistant floors" },
   };
   const BRAND_META2 = [
-    { name: "Anwar Cement Special", img: "assets/img/products/anwar-special.webp" },
-    { name: "Shoktiman Cement",     img: "assets/img/products/shoktiman.webp" },
-    { name: "Lion Cement",          img: "assets/img/products/lion.webp" },
+    { name: "Anwar Cement Special", img: "assets/img/products/anwar-special.webp", mini: "assets/img/bag-mini/anwar-special.webp" },
+    { name: "Shoktiman Cement",     img: "assets/img/products/shoktiman.webp",     mini: "assets/img/bag-mini/shoktiman.webp" },
+    { name: "Lion Cement",          img: "assets/img/products/lion.webp",          mini: "assets/img/bag-mini/lion.webp" },
   ];
   const cq = id => $("#" + id);
   const num = id => Math.max(0, parseFloat(cq(id).value) || 0);
@@ -80,13 +80,13 @@ window.AC_initCalculator = function ({ $, $$, toast, bagSrc }) {
     const maxCft = Math.max(r.cementKg / 45, r.sandCft, r.aggCft, r.bricks / 40, r.water / 30, 1);
     const bars = { cement: r.cementKg / 45, sand: r.sandCft, agg: r.aggCft, brick: r.bricks / 40, water: r.water / 30 };
     for (const k in bars) gsap.to(`[data-m=${k}] .mats__bar i`, { width: (bars[k] / maxCft * 100) + "%", duration: .8, ease: "expo.out" });
-    // bag glyph row (1 glyph = 5 bags, capped)
+    const jm = JOB_META[job], bm = BRAND_META2[jm.brand];
+    // bag glyph row: the recommended brand's real bag (1 glyph = 5 bags, capped)
     const row = cq("bagRow"); row.innerHTML = "";
     const glyphs = Math.min(60, Math.ceil(r.bags / 5));
-    for (let i = 0; i < glyphs; i++) { const b = document.createElement("i"); if (i === glyphs - 1 && r.bags % 5 && r.bags % 5 <= 2) b.className = "is-half"; row.appendChild(b); }
+    for (let i = 0; i < glyphs; i++) { const b = document.createElement("img"); b.src = bm.mini; b.alt = ""; b.decoding = "async"; if (i === glyphs - 1 && r.bags % 5 && r.bags % 5 <= 2) b.className = "is-half"; row.appendChild(b); }
     gsap.from(row.children, { opacity: 0, y: -22, scaleY: .7, transformOrigin: "50% 100%", stagger: { amount: .55 }, duration: .6, ease: "back.out(2.4)" });   // bags drop onto the stack
     // brand
-    const jm = JOB_META[job], bm = BRAND_META2[jm.brand];
     cq("rBrandImg").src = bagSrc(bm.img); cq("rBrandName").textContent = bm.name; cq("rBrandWhy").textContent = jm.why;
     cq("howText").innerHTML = r.how;
     // WhatsApp
