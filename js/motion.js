@@ -1,7 +1,8 @@
 /* =====================================================================
    ANWAR CEMENT — motion.js  (shared motion layer, loaded after main.js / page.js)
    Scroll progress, smart header, heading line reveals, image wipes,
-   circular theme reveal, odometer digits, button label roll, card tilt.
+   circular theme reveal, odometer digits, button label roll, card tilt,
+   footer wordmark, product bag scroll.
    Page-to-page transitions live in CSS (@view-transition).
    ===================================================================== */
 (() => {
@@ -80,7 +81,7 @@
     return $$(".mw__i", el);
   };
 
-  const titles = $$(".sec-title, .phero__title").filter(t => !t.closest("#galleryTrack"));
+  const titles = $$(".sec-title, .phero__title, .footer__title").filter(t => !t.closest("#galleryTrack"));
   titles.forEach(t => {
     if (reduceMotion) { t.classList.add("is-drawn"); return; }
     const words = splitWords(t);
@@ -188,6 +189,39 @@
         bag.style.setProperty("--ry", (px * 14).toFixed(2) + "deg"); bag.style.setProperty("--rx", (-py * 8).toFixed(2) + "deg");
       });
       area.addEventListener("pointerleave", () => { bag.style.setProperty("--rx", "0deg"); bag.style.setProperty("--ry", "0deg"); });
+    });
+  }
+
+  /* -------------------------------------------------------------------
+     8. FOOTER WORDMARK — a full-width ANWAR CEMENT that builds letter by
+        letter as the page reaches its end; letters lift on hover
+     ------------------------------------------------------------------- */
+  const footBottom = $(".footer__bottom");
+  if (footBottom) {
+    const mark = document.createElement("div");
+    mark.className = "footer__mark"; mark.setAttribute("aria-hidden", "true");
+    mark.innerHTML = [..."ANWAR CEMENT"].map(ch => ch === " " ? `<span class="fm__gap"></span>` : `<span class="fm__l"><span>${ch}</span></span>`).join("");
+    footBottom.before(mark);
+    const fit = () => { mark.style.fontSize = "100px"; mark.style.fontSize = (100 * mark.parentElement.clientWidth / mark.scrollWidth).toFixed(2) + "px"; };
+    fit(); addEventListener("resize", fit);
+    document.fonts && document.fonts.ready.then(() => { fit(); ScrollTrigger.refresh(); });
+    const letters = $$(".fm__l > span", mark);
+    if (!reduceMotion) {
+      gsap.fromTo(letters, { yPercent: 105 }, {
+        yPercent: 0, ease: "none", stagger: { each: .08, from: "start" },
+        scrollTrigger: { trigger: mark, start: "top bottom", end: "bottom bottom", scrub: .6 },
+      });
+    }
+  }
+
+  /* -------------------------------------------------------------------
+     9. PRODUCT HERO — the bag drifts up and turns as you scroll away
+     ------------------------------------------------------------------- */
+  const pBag = $(".phero--product .phero__bag");
+  if (pBag && !reduceMotion) {
+    ScrollTrigger.create({
+      trigger: ".phero--product", start: "top top", end: "bottom top", scrub: true,
+      onUpdate: self => { pBag.style.setProperty("--sy", (-self.progress * 90).toFixed(1) + "px"); pBag.style.setProperty("--sr", (self.progress * -8).toFixed(2) + "deg"); },
     });
   }
 
