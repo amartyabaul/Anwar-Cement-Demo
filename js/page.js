@@ -65,6 +65,15 @@
   $$(".nav__link[href]").forEach(a => { if ((a.getAttribute("href") || "").split("/").pop().split("#")[0] === here) a.classList.add("is-active"); });
   $$(".drop__item, .pcard").forEach(a => { if ((a.getAttribute("href") || "").split("/").pop() === here) { a.classList.add("is-current"); const spy = a.closest(".has-drop")?.querySelector(".nav__link"); spy && spy.classList.add("is-active"); } });
 
+  /* dropdowns: cascade index for the entrance + a highlight that glides between items */
+  $$(".drop__grid, .drop--products").forEach(grid => [...grid.children].forEach((it, i) => it.style.setProperty("--i", i)));
+  if (finePointer) $$(".drop__grid").forEach(grid => {
+    const hl = document.createElement("i"); hl.className = "drop__hl"; hl.setAttribute("aria-hidden", "true"); grid.prepend(hl);
+    const move = it => { hl.style.transform = `translate(${it.offsetLeft}px,${it.offsetTop}px)`; hl.style.width = it.offsetWidth + "px"; hl.style.height = it.offsetHeight + "px"; };
+    $$(".drop__item", grid).forEach(it => it.addEventListener("mouseenter", () => { if (!grid.classList.contains("has-hl")) { hl.style.transition = "none"; move(it); hl.offsetWidth; hl.style.transition = ""; } move(it); grid.classList.add("has-hl"); }));
+    grid.addEventListener("mouseleave", () => grid.classList.remove("has-hl"));
+  });
+
   /* cursor + magnetic */
   if (finePointer && !reduceMotion) {
     const cursor = $("#cursor"), label = $(".cursor__label");
